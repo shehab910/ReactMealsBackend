@@ -1,15 +1,10 @@
-import { Schema, model, connect } from "mongoose";
+import { Schema, model } from "mongoose";
+import IMeal from "../types/MealTypes";
 
 //TODO: make name unique
 
-interface IMeal {
-   name: string;
-   description: string;
-   price: number;
-}
-
 const MealSchema = new Schema<IMeal>({
-   name: { type: String, required: true },
+   name: { type: String, unique: true, required: true },
    description: { type: String, required: true },
    price: { type: Number, required: true },
 });

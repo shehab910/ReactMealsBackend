@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 const dottenvc = dotenv.config();
 import { errorHandler } from "./middleware/errorMiddleware";
 import connectDB from "./config/db";
+import mealRouter from "./routes/mealRoutes";
+import userRouter from "./routes/userRoutes";
 
 const port = process.env.PORT || 5000;
 
@@ -15,7 +17,9 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/api/meals", require("./routes/mealRoutes"));
+app.use("/api/meals", mealRouter);
+
+app.use("/api/users", userRouter);
 
 app.use(errorHandler);
 
