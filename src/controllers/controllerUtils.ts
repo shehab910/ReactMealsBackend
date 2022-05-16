@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { permission } from "../types/UserTypes";
 export const validateBody = (
    expectedKeys: string[],
    req: Request,
@@ -10,4 +11,11 @@ export const validateBody = (
          throw new Error(`Please provide the ${key}`);
       }
    });
+};
+
+export const validateAdmin = (res: Response) => {
+   if (res.locals.user.permission !== permission.ADMIN) {
+      res.status(401);
+      throw new Error("Unauthorized");
+   }
 };

@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import Meal from "../models/mealModel";
-import { validateBody } from "./controllerUtils";
+import { permission } from "../types/UserTypes";
+import { validateAdmin, validateBody } from "./controllerUtils";
 
 // @desc  Get meals
 // @route GET /api/meals
@@ -16,6 +17,9 @@ export const getMeals = asyncHandler(async (req: Request, res: Response) => {
 // @route POST /api/meals
 // @access Private(Admin)
 export const addMeal = asyncHandler(async (req: Request, res: Response) => {
+   //check if user is an admin
+   validateAdmin(res);
+
    const expectedFromBody = ["name", "description", "price"];
    validateBody(expectedFromBody, req, res);
 
@@ -32,6 +36,9 @@ export const addMeal = asyncHandler(async (req: Request, res: Response) => {
 // @route PUT /api/meals/:id
 // @access Private()
 export const updateMeal = asyncHandler(async (req: Request, res: Response) => {
+   //check if user is an admin
+   validateAdmin(res);
+
    const meal = await Meal.findById(req.params.id);
    if (!meal) {
       res.status(400);
@@ -48,6 +55,9 @@ export const updateMeal = asyncHandler(async (req: Request, res: Response) => {
 // @route DELETE /api/meals/:id
 // @access Private()
 export const deleteMeal = asyncHandler(async (req: Request, res: Response) => {
+   //check if user is an admin
+   validateAdmin(res);
+
    const meal = Meal.findById(req.params.id);
    if (!meal) {
       res.status(400);
