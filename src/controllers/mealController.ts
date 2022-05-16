@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import Meal from "../models/mealModel";
+import { validateBody } from "./controllerUtils";
 
 // @desc  Get meals
 // @route GET /api/meals
@@ -13,10 +14,10 @@ export const getMeals = asyncHandler(async (req: Request, res: Response) => {
 
 // @desc  add meal
 // @route POST /api/meals
-// @access Private
+// @access Private(Admin)
 export const addMeal = asyncHandler(async (req: Request, res: Response) => {
    const expectedFromBody = ["name", "description", "price"];
-   validateAllExist(expectedFromBody, req, res);
+   validateBody(expectedFromBody, req, res);
 
    const meal = await Meal.create({
       name: req.body.name,
@@ -29,7 +30,7 @@ export const addMeal = asyncHandler(async (req: Request, res: Response) => {
 
 // @desc  Update meal
 // @route PUT /api/meals/:id
-// @access Private
+// @access Private()
 export const updateMeal = asyncHandler(async (req: Request, res: Response) => {
    const meal = await Meal.findById(req.params.id);
    if (!meal) {
@@ -45,7 +46,7 @@ export const updateMeal = asyncHandler(async (req: Request, res: Response) => {
 
 // @desc  Delete meal
 // @route DELETE /api/meals/:id
-// @access Private
+// @access Private()
 export const deleteMeal = asyncHandler(async (req: Request, res: Response) => {
    const meal = Meal.findById(req.params.id);
    if (!meal) {
@@ -56,12 +57,3 @@ export const deleteMeal = asyncHandler(async (req: Request, res: Response) => {
 
    res.status(200).json({ id: req.params.id });
 });
-
-const validateAllExist = (keys: string[], req: Request, res: Response) => {
-   keys.forEach((key) => {
-      if (!req.body[key]) {
-         res.status(400);
-         throw new Error(`Please provide the ${key}`);
-      }
-   });
-};

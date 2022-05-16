@@ -5,15 +5,16 @@ import {
    updateMeal,
    deleteMeal,
 } from "../controllers/mealController";
+import { protectAdmin } from "../middleware/authMiddleware";
 
 const router = express.Router();
 
 router.get("/", getMeals);
 
-router.post("/", addMeal);
+router.post("/", protectAdmin, addMeal);
 
-router.put("/:id", updateMeal);
+router.put("/:id", protectAdmin, updateMeal);
 
-router.delete("/:id", deleteMeal);
+router.delete("/:id", protectAdmin, deleteMeal);
 
 export default router;

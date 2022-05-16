@@ -5,6 +5,7 @@ export enum permission {
 
 interface IUser {
    username: string;
+   email: string;
    password: string;
    permission: permission;
 }
