@@ -13,7 +13,7 @@ const port = process.env.PORT || 5000;
 connectDB();
 
 const app = express();
-app.use(cors({ origin: "*" }));
+app.use(cors({ origin: "*", credentials: true }));
 
 //to access the body of the request
 app.use(express.json());
