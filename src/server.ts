@@ -1,4 +1,5 @@
 import express, { Request, Response, Errback, NextFunction } from "express";
+import cors from "cors";
 import colors from "colors";
 import dotenv from "dotenv";
 const dottenvc = dotenv.config();
@@ -12,6 +13,7 @@ const port = process.env.PORT || 5000;
 connectDB();
 
 const app = express();
+app.use(cors({ origin: "*" }));
 
 //to access the body of the request
 app.use(express.json());
