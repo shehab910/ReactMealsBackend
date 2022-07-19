@@ -5,13 +5,6 @@ import User from "../models/userModel";
 import asyncHandler from "express-async-handler";
 import { validateBody } from "./controllerUtils";
 
-// @desc  login an Admin
-// @route POST /api/admin
-// @access Private
-export const loginAdmin = asyncHandler(async (req: Request, res: Response) => {
-   res.json({ message: "login Admin" });
-});
-
 // @desc  Register new user
 // @route POST /api/users
 // @access Public
@@ -68,6 +61,7 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
          _id: user.id,
          username: user.username,
          email: user.email,
+         permission: user.permission,
          token: generateJWT(user.id),
       });
    } else {
